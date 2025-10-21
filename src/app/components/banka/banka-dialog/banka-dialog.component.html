@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Izmeni Banku' : 'Dodaj Banku' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="bankaForm">
+    
+    <!-- Naziv -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Naziv</mat-label>
+      <input matInput formControlName="naziv" placeholder="Unesite naziv banke">
+      <mat-error *ngIf="bankaForm.get('naziv')?.hasError('required')">
+        Naziv je obavezan
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Kontakt -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Kontakt</mat-label>
+      <input matInput formControlName="kontakt" placeholder="Unesite kontakt telefon">
+    </mat-form-field>
+
+    <!-- PIB -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>PIB</mat-label>
+      <input matInput formControlName="pib" type="number" placeholder="Unesite PIB">
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Otkaži</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">
+    {{ isEdit ? 'Sačuvaj' : 'Dodaj' }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,59 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Banke</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Dugme za dodavanje -->
+      <button mat-raised-button color="primary" (click)="openAddDialog()" class="add-button">
+        <mat-icon>add</mat-icon>
+        Dodaj Banku
+      </button>
+
+      <table mat-table [dataSource]="banke" class="mat-elevation-z8">
+
+        <!-- ID Kolona -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let banka"> {{banka.id}} </td>
+        </ng-container>
+
+        <!-- Naziv Kolona -->
+        <ng-container matColumnDef="naziv">
+          <th mat-header-cell *matHeaderCellDef> Naziv </th>
+          <td mat-cell *matCellDef="let banka"> {{banka.naziv}} </td>
+        </ng-container>
+
+        <!-- Kontakt Kolona -->
+        <ng-container matColumnDef="kontakt">
+          <th mat-header-cell *matHeaderCellDef> Kontakt </th>
+          <td mat-cell *matCellDef="let banka"> {{banka.kontakt}} </td>
+        </ng-container>
+
+        <!-- PIB Kolona -->
+        <ng-container matColumnDef="pib">
+          <th mat-header-cell *matHeaderCellDef> PIB </th>
+          <td mat-cell *matCellDef="let banka"> {{banka.pib}} </td>
+        </ng-container>
+
+        <!-- Actions Kolona -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Akcije </th>
+          <td mat-cell *matCellDef="let banka">
+            <button mat-icon-button color="primary" (click)="openEditDialog(banka)" matTooltip="Izmeni">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteBanka(banka)" matTooltip="Obriši">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
