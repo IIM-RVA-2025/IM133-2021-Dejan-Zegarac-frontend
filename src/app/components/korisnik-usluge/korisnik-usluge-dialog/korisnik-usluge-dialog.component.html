@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Izmeni Korisnika' : 'Dodaj Korisnika' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="korisnikForm">
+    
+<!-- IME -->
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>Ime</mat-label>
+  <input matInput formControlName="ime" placeholder="Unesite ime">
+  
+  <mat-error *ngIf="korisnikForm.get('ime')?.invalid">
+    <span *ngIf="korisnikForm.get('ime')?.hasError('required')">
+      Ime je obavezno
+    </span>
+    <span *ngIf="!korisnikForm.get('ime')?.hasError('required') && korisnikForm.get('ime')?.hasError('minlength')">
+      Ime mora imati najmanje 2 karaktera
+    </span>
+  </mat-error>
+</mat-form-field>
+
+<!-- PREZIME -->
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>Prezime</mat-label>
+  <input matInput formControlName="prezime" placeholder="Unesite prezime">
+  
+  <mat-error *ngIf="korisnikForm.get('prezime')?.invalid">
+    <span *ngIf="korisnikForm.get('prezime')?.hasError('required')">
+      Prezime je obavezno
+    </span>
+    <span *ngIf="!korisnikForm.get('prezime')?.hasError('required') && korisnikForm.get('prezime')?.hasError('minlength')">
+      Prezime mora imati najmanje 2 karaktera
+    </span>
+  </mat-error>
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>Matični Broj (JMBG)</mat-label>
+  <input matInput formControlName="maticniBroj" placeholder="Unesite 13 cifara" maxlength="13">
+  <mat-hint>Tačno 13 cifara</mat-hint>
+  
+  <!-- Prikazuje SAMO JEDNU poruku odjednom -->
+  <mat-error *ngIf="korisnikForm.get('maticniBroj')?.invalid">
+    <span *ngIf="korisnikForm.get('maticniBroj')?.hasError('required')">
+      JMBG je obavezan
+    </span>
+    <span *ngIf="!korisnikForm.get('maticniBroj')?.hasError('required') && korisnikForm.get('maticniBroj')?.hasError('pattern')">
+      JMBG mora imati tačno 13 cifara
+    </span>
+  </mat-error>
+</mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Otkaži</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">
+    {{ isEdit ? 'Sačuvaj' : 'Dodaj' }}
+  </button>
+</mat-dialog-actions>

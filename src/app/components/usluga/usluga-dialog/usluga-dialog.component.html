@@ -1,0 +1,96 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Izmeni Uslugu' : 'Dodaj Uslugu' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="uslugaForm">
+    
+    <!-- Naziv -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Naziv Usluge</mat-label>
+      <input matInput formControlName="naziv" placeholder="Unesite naziv usluge">
+  
+      <mat-error *ngIf="uslugaForm.get('naziv')?.invalid">
+        <span *ngIf="uslugaForm.get('naziv')?.hasError('required')">
+          Naziv je obavezan
+        </span>
+        <span *ngIf="!uslugaForm.get('naziv')?.hasError('required') && uslugaForm.get('naziv')?.hasError('minlength')">
+          Naziv mora imati najmanje 2 karaktera
+        </span>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Opis -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Opis Usluge</mat-label>
+      <textarea matInput formControlName="opisUsluge" rows="3" placeholder="Unesite opis" maxlength="500"></textarea>
+      <mat-hint align="end">{{uslugaForm.get('opisUsluge')?.value?.length || 0}}/500</mat-hint>
+    </mat-form-field>
+
+    <!-- Datum Ugovora (Date Picker) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Datum Ugovora</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="datumUgovora" placeholder="Izaberite datum">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-hint>Ne može biti u budućnosti</mat-hint>
+  
+      <mat-error *ngIf="uslugaForm.get('datumUgovora')?.invalid">
+        <span *ngIf="uslugaForm.get('datumUgovora')?.hasError('required')">
+          Datum ugovora je obavezan
+        </span>
+        <span *ngIf="!uslugaForm.get('datumUgovora')?.hasError('required') && uslugaForm.get('datumUgovora')?.hasError('futureDate')">
+          Datum ne može biti u budućnosti
+        </span>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Provizija -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Provizija (RSD)</mat-label>
+      <input matInput formControlName="provizija" type="number" step="0.01" placeholder="Unesite proviziju" min="0">
+      <mat-hint>Unesite pozitivan broj (2 decimale)</mat-hint>
+  
+      <mat-error *ngIf="uslugaForm.get('provizija')?.invalid">
+        <span *ngIf="uslugaForm.get('provizija')?.hasError('min')">
+          Provizija ne može biti negativna
+        </span>
+        <span *ngIf="uslugaForm.get('provizija')?.hasError('max')">
+          Provizija je prevelika
+        </span>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Filijala (Dropdown 1) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Filijala</mat-label>
+      <mat-select formControlName="filijalaId">
+        <mat-option *ngFor="let filijala of filijale" [value]="filijala.id">
+          {{ filijala.adresa }} ({{ filijala.banka.naziv }})
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="uslugaForm.get('filijalaId')?.hasError('required')">
+        Filijala je obavezna
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Korisnik (Dropdown 2) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Korisnik</mat-label>
+      <mat-select formControlName="korisnikId">
+        <mat-option *ngFor="let korisnik of korisnici" [value]="korisnik.id">
+          {{ korisnik.ime }} {{ korisnik.prezime }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="uslugaForm.get('korisnikId')?.hasError('required')">
+        Korisnik je obavezan
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Otkaži</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">
+    {{ isEdit ? 'Sačuvaj' : 'Dodaj' }}
+  </button>
+</mat-dialog-actions>

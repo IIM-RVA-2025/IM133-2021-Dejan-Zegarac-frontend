@@ -1,0 +1,19 @@
+.dialog-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.dialog-message {
+  font-size: 16px;
+  margin: 20px 0;
+  color: #333;
+}
+
+h2 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}

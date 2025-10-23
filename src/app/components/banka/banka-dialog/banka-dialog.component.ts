@@ -25,11 +25,15 @@ export class BankaDialogComponent implements OnInit {
     this.isEdit = data.isEdit;
 
     // Kreiranje forme
-    this.bankaForm = this.fb.group({
-      naziv: ['', Validators.required],  // Obavezno polje
-      kontakt: [''],
-      pib: ['']
-    });
+  this.bankaForm = this.fb.group({
+    naziv: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+    kontakt: ['', [Validators.maxLength(100)]],
+    pib: ['', [
+      Validators.pattern(/^\d{8,9}$/),  // 8 ili 9 cifara
+      Validators.minLength(8),
+      Validators.maxLength(9)
+    ]]
+  });
   }
 
   ngOnInit(): void {

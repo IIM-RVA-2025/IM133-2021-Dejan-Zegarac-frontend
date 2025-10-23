@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BankaService } from '../../services/banka.service';
 import { Banka } from '../../models/banka.model';
 import { BankaDialogComponent } from './banka-dialog/banka-dialog.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-banka',
@@ -67,12 +68,23 @@ export class BankaComponent implements OnInit {
   }
 
   // ===== DELETE =====
-  deleteBanka(banka: Banka): void {
-    if (confirm(`Da li ste sigurni da želite da obrišete "${banka.naziv}"?`)) {
+deleteBanka(banka: Banka): void {
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    width: '400px',
+    data: {
+      title: 'Potvrda brisanja',
+      message: `Da li ste sigurni da želite da obrišete banku "${banka.naziv}"?`,
+      confirmText: 'Da, obriši',
+      cancelText: 'Otkaži'
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {  // Ako je korisnik potvrdio
       this.bankaService.delete(banka.id!).subscribe({
         next: () => {
           this.showMessage('Banka uspešno obrisana!');
-          this.loadBanke();  // Refresh tabele
+          this.loadBanke();
         },
         error: (err) => {
           console.error('Greška pri brisanju:', err);
@@ -80,7 +92,8 @@ export class BankaComponent implements OnInit {
         }
       });
     }
-  }
+  });
+}
 
   // ===== SNACKBAR NOTIFIKACIJA =====
   showMessage(message: string): void {

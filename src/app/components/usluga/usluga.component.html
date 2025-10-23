@@ -1,0 +1,162 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Usluge</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Dugme za dodavanje -->
+      <button mat-raised-button color="primary" (click)="openAddDialog()" class="add-button">
+        <mat-icon>add</mat-icon>
+        Dodaj Uslugu
+      </button>
+
+      <!-- Advanced Search Bar -->
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-type">
+        <mat-label>Pretraži po</mat-label>
+        <mat-select [(ngModel)]="searchType">
+          <mat-option value="naziv">Naziv</mat-option>
+          <mat-option value="filijala">Filijala</mat-option>
+          <mat-option value="korisnik">Korisnik</mat-option>
+          <mat-option value="banka">Banka</mat-option>
+          <mat-option value="posle">Posle datuma</mat-option>
+          <mat-option value="period">Period</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <!-- Search po nazivu -->
+      <mat-form-field appearance="outline" class="search-field" *ngIf="searchType === 'naziv'">
+        <mat-label>Unesite naziv</mat-label>
+        <input matInput [(ngModel)]="searchQuery" (keyup.enter)="searchUsluge()" (ngModelChange)="onSearchChange()" placeholder="Npr. Kredit">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      
+      <!-- Search po filijali -->
+      <mat-form-field appearance="outline" class="search-field" *ngIf="searchType === 'filijala'">
+        <mat-label>Izaberite filijalu</mat-label>
+        <mat-select [(ngModel)]="searchQuery" (ngModelChange)="searchUsluge()">
+          <mat-option *ngFor="let filijala of filijale" [value]="filijala.id">
+            {{ filijala.adresa }} ({{ filijala.banka.naziv }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <!-- Search po korisniku -->
+      <mat-form-field appearance="outline" class="search-field" *ngIf="searchType === 'korisnik'">
+        <mat-label>Izaberite korisnika</mat-label>
+        <mat-select [(ngModel)]="searchQuery" (ngModelChange)="searchUsluge()">
+          <mat-option *ngFor="let korisnik of korisnici" [value]="korisnik.id">
+            {{ korisnik.ime }} {{ korisnik.prezime }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <!-- Search po banci -->
+      <mat-form-field appearance="outline" class="search-field" *ngIf="searchType === 'banka'">
+        <mat-label>Izaberite banku</mat-label>
+        <mat-select [(ngModel)]="searchQuery" (ngModelChange)="searchUsluge()">
+          <mat-option *ngFor="let banka of banke" [value]="banka.id">
+            {{ banka.naziv }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <!-- Search posle datuma -->
+      <mat-form-field appearance="outline" class="search-field" *ngIf="searchType === 'posle'">
+        <mat-label>Izaberite datum</mat-label>
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="datumOd" (ngModelChange)="searchUsluge()">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      
+      <!-- Search period -->
+      <div *ngIf="searchType === 'period'" style="display: flex; gap: 10px;">
+        <mat-form-field appearance="outline">
+          <mat-label>Od datuma</mat-label>
+          <input matInput [matDatepicker]="pickerOd" [(ngModel)]="datumOd">
+          <mat-datepicker-toggle matSuffix [for]="pickerOd"></mat-datepicker-toggle>
+          <mat-datepicker #pickerOd></mat-datepicker>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Do datuma</mat-label>
+          <input matInput [matDatepicker]="pickerDo" [(ngModel)]="datumDo">
+          <mat-datepicker-toggle matSuffix [for]="pickerDo"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDo></mat-datepicker>
+        </mat-form-field>
+        
+        <button mat-raised-button color="primary" (click)="searchUsluge()" [disabled]="!datumOd || !datumDo">
+          <mat-icon>search</mat-icon>
+          Pretraži
+        </button>
+      </div>
+      
+      <button mat-raised-button (click)="resetSearch()">
+        <mat-icon>refresh</mat-icon>
+        Resetuj
+      </button>
+    </div>
+
+      <table mat-table [dataSource]="usluge" class="mat-elevation-z8">
+
+        <!-- ID Kolona -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let usluga"> {{usluga.id}} </td>
+        </ng-container>
+
+        <!-- Naziv Kolona -->
+        <ng-container matColumnDef="naziv">
+          <th mat-header-cell *matHeaderCellDef> Naziv </th>
+          <td mat-cell *matCellDef="let usluga"> {{usluga.naziv}} </td>
+        </ng-container>
+
+        <!-- Datum Ugovora Kolona -->
+        <ng-container matColumnDef="datumUgovora">
+          <th mat-header-cell *matHeaderCellDef> Datum </th>
+          <td mat-cell *matCellDef="let usluga"> {{usluga.datumUgovora | date:'dd.MM.yyyy'}} </td>
+        </ng-container>
+
+        <!-- Provizija Kolona -->
+        <ng-container matColumnDef="provizija">
+          <th mat-header-cell *matHeaderCellDef> Provizija </th>
+          <td mat-cell *matCellDef="let usluga"> {{usluga.provizija | number:'1.2-2'}} RSD </td>
+        </ng-container>
+
+        <!-- Filijala Kolona -->
+        <ng-container matColumnDef="filijala">
+          <th mat-header-cell *matHeaderCellDef> Filijala </th>
+          <td mat-cell *matCellDef="let usluga">
+            {{usluga.filijala?.adresa || 'N/A'}}
+          </td>
+        </ng-container>
+
+        <!-- Korisnik Kolona -->
+        <ng-container matColumnDef="korisnik">
+          <th mat-header-cell *matHeaderCellDef> Korisnik </th>
+          <td mat-cell *matCellDef="let usluga">
+            {{usluga.korisnik ? (usluga.korisnik.ime + ' ' + usluga.korisnik.prezime) : 'N/A'}}
+          </td>
+        </ng-container>
+
+        <!-- Actions Kolona -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Akcije </th>
+          <td mat-cell *matCellDef="let usluga">
+            <button mat-icon-button color="primary" (click)="openEditDialog(usluga)" matTooltip="Izmeni">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteUsluga(usluga)" matTooltip="Obriši">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

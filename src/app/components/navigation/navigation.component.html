@@ -1,0 +1,37 @@
+<mat-toolbar color="primary" class="navigation-toolbar">
+  <mat-toolbar-row>
+    <span class="app-title">
+      <mat-icon>account_balance</mat-icon>
+      Bankarski Sistem
+    </span>
+    
+    <span class="spacer"></span>
+    
+    <nav class="nav-links">
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>home</mat-icon>
+        Početna
+      </a>
+      
+      <a mat-button routerLink="/banka" routerLinkActive="active">
+        <mat-icon>account_balance</mat-icon>
+        Banke
+      </a>
+      
+      <a mat-button routerLink="/filijala" routerLinkActive="active">
+        <mat-icon>business</mat-icon>
+        Filijale
+      </a>
+      
+      <a mat-button routerLink="/korisnik" routerLinkActive="active">
+        <mat-icon>person</mat-icon>
+        Korisnici
+      </a>
+      
+      <a mat-button routerLink="/usluga" routerLinkActive="active">
+        <mat-icon>payment</mat-icon>
+        Usluge
+      </a>
+    </nav>
+  </mat-toolbar-row>
+</mat-toolbar>

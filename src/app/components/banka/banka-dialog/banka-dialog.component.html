@@ -18,11 +18,15 @@
       <input matInput formControlName="kontakt" placeholder="Unesite kontakt telefon">
     </mat-form-field>
 
-    <!-- PIB -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>PIB</mat-label>
-      <input matInput formControlName="pib" type="number" placeholder="Unesite PIB">
-    </mat-form-field>
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>PIB</mat-label>
+  <input matInput formControlName="pib" placeholder="Unesite PIB (8-9 cifara)" maxlength="9">
+  <mat-hint>8 ili 9 cifara (opciono)</mat-hint>
+  
+  <mat-error *ngIf="bankaForm.get('pib')?.invalid">
+    PIB mora imati 8 ili 9 cifara
+  </mat-error>
+</mat-form-field>
 
   </form>
 </mat-dialog-content>

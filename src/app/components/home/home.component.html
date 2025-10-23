@@ -1,0 +1,70 @@
+<div class="home-container">
+  <mat-card class="welcome-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon class="welcome-icon">account_balance</mat-icon>
+        Dobrodošli u Bankarski Sistem
+      </mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <p class="welcome-text">
+        Kompletan sistem za upravljanje bankama, filijalama, korisnicima i uslugama.
+      </p>
+      
+    <div class="features-grid">
+    <!-- BANKE -->
+    <mat-card class="feature-card" routerLink="/banka">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon color="primary">account_balance</mat-icon>
+          Banke
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Upravljanje bankama i njihovim podacima</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- FILIJALE -->
+    <mat-card class="feature-card" routerLink="/filijala">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon color="accent">business</mat-icon>
+          Filijale
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Upravljanje filijalama i njihovim lokacijama</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- KORISNICI -->
+    <mat-card class="feature-card" routerLink="/korisnik">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon color="warn">person</mat-icon>
+          Korisnici
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Upravljanje korisnicima usluga</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- USLUGE -->
+    <mat-card class="feature-card" routerLink="/usluga">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon color="primary">payment</mat-icon>
+          Usluge
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Upravljanje uslugama i ugovorima</p>
+      </mat-card-content>
+    </mat-card>
+    </div>
+    </mat-card-content>
+  </mat-card>
+</div>

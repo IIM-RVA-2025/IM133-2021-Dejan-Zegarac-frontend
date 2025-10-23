@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Izmeni Filijalu' : 'Dodaj Filijalu' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="filijalaForm">
+    
+    <!-- Adresa -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Adresa</mat-label>
+      <input matInput formControlName="adresa" placeholder="Unesite adresu filijale">
+      <mat-error *ngIf="filijalaForm.get('adresa')?.hasError('required')">
+        Adresa je obavezna
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Broj Pultova -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Broj Pultova</mat-label>
+      <input matInput formControlName="brojPultova" type="number" placeholder="Unesite broj pultova">
+    </mat-form-field>
+
+    <!-- Poseduje Sef (Checkbox) -->
+    <mat-checkbox formControlName="posedujeSef" class="full-width">
+      Poseduje Sef
+    </mat-checkbox>
+
+    <!-- Banka (Dropdown) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Banka</mat-label>
+      <mat-select formControlName="bankaId">
+        <mat-option *ngFor="let banka of banke" [value]="banka.id">
+          {{ banka.naziv }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="filijalaForm.get('bankaId')?.hasError('required')">
+        Banka je obavezna
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Otkaži</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">
+    {{ isEdit ? 'Sačuvaj' : 'Dodaj' }}
+  </button>
+</mat-dialog-actions>
